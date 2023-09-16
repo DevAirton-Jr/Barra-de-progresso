@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Dev Airton Jr -->
+<!-- Data de criação do codigo: 15/09/2023 -->
+<!-- Ultima atualização do codigo: 16/09/2023 -->
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="style.css" />
+    
+    <!-- Inclui a biblioteca jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+
+<body>
+    <!-- Elemento que exibe a animação de carregamento -->
+    <div class="loader">
+        <!-- Barra de progresso -->
+        <div class="bar">
+            <!-- Texto que será exibido quando a animação estiver concluída -->
+            <div class="text">Concluído!</div>
+            <!-- Elemento que representa o progresso da animação -->
+            <div class="loaded"></div>
+        </div>
+    </div>
+
+    <!-- Script JavaScript para criar a animação de carregamento -->
+    <script>
+        // Loop para criar elementos de spinners animados
+        for (var i = 0; i < 100; i++) {
+            var radius = rnd(160, 340); // Gera um raio aleatório
+            var modifier = radius / 160; // Calcula um modificador com base no raio
+            // Adiciona um elemento de spinner à classe "loader" com propriedades CSS específicas
+            $(".loader").append('<div class="spinner" style="animation: bar ' + 3.5 * modifier + "s linear infinite; height: " + radius + "px; animation-delay: -" + rnd(40, 80) / 10 + 's"></div>');
+        }
+
+        var runloader = setInterval(loader, 30); // Inicia a animação de carregamento
+
+        // Função para controlar a animação de carregamento
+        function loader() {
+            if (rnd(0, 1)) {
+                const unloaded = $(".spinner").filter(function () {
+                    return $(this).height() || 0 > 0;
+                });
+                const loaded = 100 - unloaded.length;
+
+                $(".loaded").css("width", loaded + "%");
+
+                if (loaded == 100) {
+                    clearInterval(runloader); // Encerra a animação quando estiver 100% carregada
+                    $(".text").css("display", "block"); // Exibe o texto "Concluído!"
+                    return;
+                }
+
+                const index = rnd(0, unloaded.length - 1);
+                unloaded[index].style.height = 0;
+                unloaded[index].style.opacity = 0;
+            }
+        }
+
+        // Função para gerar números aleatórios dentro de um intervalo
+        function rnd(m, n) {
+            return Math.floor(Math.random() * (n - m + 1)) + m;
+        }
+    </script>
+</body>
+
+</html>
